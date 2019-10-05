@@ -162,6 +162,10 @@ public class Registry extends ScreenAdapter implements AnimationHandler {
             tiles[activeRow][activeCol] = tiles[activeRowToSwap][activeColToSwap];
             tiles[activeRowToSwap][activeColToSwap] = swapTmpTile;
 
+            if (tiles[row1][col1].type == TileType.BOMB | tiles[row2][col2].type == TileType.BOMB) {
+                System.out.println("Swapping with Bomb");
+                tiles[activeRow][activeCol].type = TileType.BOMB_SET;
+            }
             swapOccurred = false;
 
             changeGameState(new GStateFindMatch(this));//gameState=GameState.FIND_MATCH;

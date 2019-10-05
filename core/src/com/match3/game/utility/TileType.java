@@ -15,7 +15,9 @@ public enum TileType {
     PURPLE,
     YELLOW,
     MATCH,
-    REPLACE;
+    REPLACE,
+    BOMB,
+    BOMB_SET;
 
     public static TileType getRandom() {
         return values()[(int) (MathUtils.random(1,6))];// * values().length)];

@@ -63,6 +63,9 @@ public class Logic {
 
     public boolean isSwapSuccessfulDryRun(int rowA, int colA, int rowB, int colB)
     {
+        if (reg.tiles[rowA][colA].type == TileType.BOMB | reg.tiles[rowB][colB].type == TileType.BOMB) {
+            return true;
+        }
         boolean moveIsPossible = false;
 
         TileType swapTmpType = reg.tiles[rowA][colA].type;

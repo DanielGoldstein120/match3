@@ -48,9 +48,7 @@ public class GStateFindMatch implements GState{
 
         //avoid short-circuit operators
         foundMatch = checkMatchInRow(5) | checkMatchInColumn(5) | checkMatchInRow(4) | checkMatchInColumn(4) | checkMatchInRow(3) | checkMatchInColumn(3);
-
         return foundMatch;
-
     }
 
 
@@ -60,7 +58,17 @@ public class GStateFindMatch implements GState{
 
         for (int row = 0; row < reg.tiles.length; row++) {
             for (int col = 0; col < reg.tiles.length; col++) {
-                if ((reg.tiles[row][col].type != TileType.MATCH) && (reg.tiles[row][col].type != TileType.NONE) ) {
+                if (reg.tiles[row][col].type == TileType.BOMB_SET) {
+                    for(int i=row-1; i<=row+1; i++) {
+                        for(int j=col-1; j<=col+1; j++){
+                            if ((i + (length-1)) < reg.tiles.length && (j + (length-1)) < reg.tiles.length) {
+                                reg.tiles[i][j].type = TileType.MATCH;
+                            }
+                        }
+                    }
+                    return true;
+                }
+                if ((reg.tiles[row][col].type != TileType.MATCH) && (reg.tiles[row][col].type != TileType.NONE) && (reg.tiles[row][col].type != TileType.BOMB) ) {
                     if ((row + (length-1)) < reg.tiles.length) {
 
                         int count = 0;
@@ -74,7 +82,9 @@ public class GStateFindMatch implements GState{
                         {
                             for (int k = 0; k < length; k++) {
                                 //reg.tiles[row + k][col].type = TileType.MATCH;
-
+                                if (count > 2 && k == length/2) {
+                                    reg.tiles[row + k][col].type = TileType.BOMB;
+                                }
                                 // add to Set
                                 MatchedTiles.add(reg.tiles[row + k][col]);
                             }
@@ -96,6 +106,14 @@ public class GStateFindMatch implements GState{
 
         for (int row = 0; row < reg.tiles.length; row++) {
             for (int col = 0; col < reg.tiles.length; col++) {
+                if (reg.tiles[row][col].type == TileType.BOMB_SET) {
+                    for(int i=row-1; i<=row+1; i++) {
+                        for(int j=col-1; j<=col+1; j++){
+                            reg.tiles[i][j].type = TileType.MATCH;
+                        }
+                    }
+                    return true;
+                }
                 if ((reg.tiles[row][col].type != TileType.MATCH) && (reg.tiles[row][col].type != TileType.NONE) ) {
                     if ((col + (length-1)) < reg.tiles.length) {
 
@@ -110,7 +128,9 @@ public class GStateFindMatch implements GState{
                         {
                             for (int k = 0; k < length; k++) {
                                 //reg.tiles[row][col + k].type = TileType.MATCH;
-
+                                if (count > 2 && k == length/2) {
+                                    reg.tiles[row][col + k].type = TileType.BOMB;
+                                }
                                 // add to Set
                                 MatchedTiles.add(reg.tiles[row][col + k]);
                             }

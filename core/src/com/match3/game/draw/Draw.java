@@ -34,6 +34,8 @@ public class Draw {
         textureRegions[3] = new TextureRegion(new Texture("gem04_48x48.png"), 0, 0, Registry.TILESIZE, Registry.TILESIZE);
         textureRegions[4] = new TextureRegion(new Texture("gem05_48x48.png"), 0, 0, Registry.TILESIZE, Registry.TILESIZE);
         textureRegions[5] = new TextureRegion(new Texture("gem06_48x48.png"), 0, 0, Registry.TILESIZE, Registry.TILESIZE);
+        textureRegions[6] = new TextureRegion(new Texture("bomb.png"),        0, 0, Registry.TILESIZE, Registry.TILESIZE);
+
         /*textureRegions[0] = new TextureRegion(new Texture("gem01_64x64.png"), 0, 0, 64, 64);
         textureRegions[1] = new TextureRegion(new Texture("gem02_64x64.png"), 0, 0, 64, 64);
         textureRegions[2] = new TextureRegion(new Texture("gem03_64x64.png"), 0, 0, 64, 64);
@@ -133,6 +135,7 @@ public class Draw {
                                 break;
                     case YELLOW: reg.batch.draw(textureRegions[5],reg.tiles[row][col].x,reg.tiles[row][col].y, reg.tiles[row][col].sizeX, reg.tiles[row][col].sizeY);
                                 break;
+                    case BOMB:   reg.batch.draw(textureRegions[6], reg.tiles[row][col].x,reg.tiles[row][col].y, reg.tiles[row][col].sizeX, reg.tiles[row][col].sizeY);
                     default:
                         break;
                     }

@@ -40,7 +40,9 @@ public class GStateScoringMatch implements GState {
         for (Iterator<Tile> it = MatchedTiles.iterator(); it.hasNext(); )
         {
             Tile nextTile = it.next();
+            if (nextTile.type == TileType.BOMB) continue;
             nextTile.type = TileType.MATCH;
+
         }
 
     }
@@ -53,6 +55,9 @@ public class GStateScoringMatch implements GState {
             for (int col = 0; col < reg.tiles.length; col++) {
                 if (reg.tiles[row][col].type == TileType.MATCH) {
                     count++;
+                }
+                else if (reg.tiles[row][col].type == TileType.BOMB) {
+                    count = count + 5;
                 }
             }
         }
@@ -67,13 +72,16 @@ public class GStateScoringMatch implements GState {
 
         for (int row = 0; row < reg.tiles.length; row++) {
             for (int col = 0; col < reg.tiles.length; col++) {
-                if (reg.tiles[row][col].type == TileType.MATCH) {
-                    reg.tiles[row][col].type = TileType.NONE;
-                    reg.tiles[row][col].sizeX = reg.TILESIZE;
-                    reg.tiles[row][col].sizeY = reg.TILESIZE;
-
+                if (reg.tiles[row][col].type == TileType.MATCH | reg.tiles[row][col].type == TileType.BOMB) {
                     reg.tiles[row][col].x = (col * reg.TILESIZE) + reg.tilesXOffset;
                     reg.tiles[row][col].y = ((reg.tiles.length -1 -row) * reg.TILESIZE) + reg.tilesYOffset;
+
+
+                    reg.tiles[row][col].sizeX = reg.TILESIZE;
+                    reg.tiles[row][col].sizeY = reg.TILESIZE;
+                    if (reg.tiles[row][col].type == TileType.MATCH) {
+                        reg.tiles[row][col].type = TileType.NONE;
+                    }
                 }
             }
         }
