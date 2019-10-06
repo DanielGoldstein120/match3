@@ -1,3 +1,4 @@
+apply plugin: 'com.android.application'
 android {
     buildToolsVersion '28.0.3'
     compileSdkVersion 28
@@ -136,5 +137,10 @@ idea {
 }
 
 dependencies {
-  implementation 'com.android.support.constraint:constraint-layout:+'
+    implementation 'com.android.support.constraint:constraint-layout:+'
+    implementation 'com.google.firebase:firebase-database:11.8.0'
+    implementation 'com.google.firebase:firebase-auth:11.8.0'
+    implementation 'com.google.firebase:firebase-core:11.8.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

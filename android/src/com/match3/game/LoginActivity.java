@@ -4,20 +4,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class LoginActivity extends Activity {
-    String user;
-    String password;
-    Button btnLogin;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
+public class LoginActivity extends AppCompatActivity {
     EditText userName;
-    EditText passWord;
+    EditText password;
+    Button btnLogin;
+    static String userUID;
+
+    FirebaseDatabase database;
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -25,54 +36,58 @@ public class LoginActivity extends Activity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_login );
 
+        mAuth = FirebaseAuth.getInstance();
 
+        // from Text view, make a clickListener for registering
+        TextView tv = findViewById( R.id.register );
+        tv.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.login, new RegisterFragment()).commit();
+            }
+        });
 
-        btnLogin = (Button) findViewById( R.id.login_but );
+        userName =  (EditText)findViewById(R.id.username);
+        password = (EditText)findViewById(R.id.getpassword);
+        btnLogin = findViewById( R.id.login_but );
         btnLogin.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText chekEmptyName = (EditText) findViewById( R.id.username );
-                EditText chekEmptyPassword = (EditText) findViewById( R.id.getpassword );
-                Context context = getApplicationContext();
+                String user = userName.getText().toString();
+                String passwordUser = password.getText().toString();
 
-                user = ((EditText) findViewById( R.id.username )).getText().toString();
-                password = ((EditText) findViewById( R.id.getpassword )).getText().toString();
-
-                if (TextUtils.isEmpty( user )) {
-                    chekEmptyName.setError( "The item Username cannot be empty" );
+                if ( user.isEmpty()  ) {
+                    userName.setError( "The item Username cannot be empty" );
                     return;
                 }
-                if ((TextUtils.isEmpty( password ))) {
-                    chekEmptyPassword.setError( "The item Password cannot be empty" );
+                if( passwordUser.isEmpty() ){
+                    password.setError( "The item Password cannot be empty" );
                     return;
                 }
-
                 Log.i( " userNameDescription", "onClick: " + user );
-                Log.i( " PasswordDescription", "onClick: " + password );
+                Log.i( " PasswordDescription", "onClick: " + passwordUser );
 
-                if(user.equals("a") && password.equals("a")) {
-                    Intent intent = new Intent(getApplicationContext(),AndroidLauncher.class);
-                    startActivity(intent);
-
-                }else{
-                    Toast toast = Toast.makeText(context, "Wrong Input", Toast.LENGTH_SHORT);
-                    toast.show();
-
-                }
-
-                /*
-                // open a new activity with the parameters "user name" and "password" form user
-                Intent intent = new Intent( getApplicationContext(), ChekPassActivit.class ); // TODO: change the parameter " ChekPassActivit.class"
-                Bundle bundleuserAndPass = new Bundle();
-                bundleuserAndPass.putString( "usname", user );
-                bundleuserAndPass.putString( "password", password );
-
-                intent.putExtras( bundleuserAndPass );
-                startActivity( intent );
-                */
-
+                mAuth.signInWithEmailAndPassword(user, passwordUser)
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d("Line 101 ", "signInWithEmail:success");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    Toast.makeText(LoginActivity.this, "Logged in with user" + user.getEmail(), Toast.LENGTH_LONG).show();
+                                    LoginActivity.userUID = user.getUid();
+                                    Intent intent = new Intent(getApplicationContext(),AndroidLauncher.class);
+                                    startActivity(intent);
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w("Line 108 ", "signInWithEmail:failure", task.getException());
+                                    Toast.makeText(LoginActivity.this, "user Authentication failed" , Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
             }
-        } );
+        });
     }
 
 }

@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/dne_noc"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:id="@+id/login">
 
     <ImageView
         android:id="@+id/logo"
@@ -67,7 +68,7 @@
     <RelativeLayout
         android:id="@+id/rl_btn"
         android:layout_width="match_parent"
-        android:layout_height="94dp"
+        android:layout_height="124dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
@@ -76,14 +77,26 @@
         android:layout_marginBottom="72dp"
         android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/register"
+            android:layout_width="131dp"
+            android:layout_height="34dp"
+            android:layout_below="@+id/login_but"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="Register here..."
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_alignParentBottom="true"
+            />
+
+
         <Button
             android:id="@+id/login_but"
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-
-            android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="59dp"
             android:layout_marginRight="59dp"
