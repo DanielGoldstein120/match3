@@ -92,12 +92,10 @@ public class RegisterFragment<mAuth> extends Fragment {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     // Sign in success, update UI with the signed-in user's information
                                     Toast.makeText(getActivity(), "Created user" + user.getEmail(), Toast.LENGTH_LONG).show();
-                                    database = FirebaseDatabase.getInstance();
-                                    database.getReference(user.getUid()).child("donate").setValue(0);
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.i( "createUser: failure", task.getException().toString());
-                                    Toast.makeText(getActivity(), "Created user failed", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "Failed: Password 6 letters minimum ", Toast.LENGTH_SHORT).show();
                                 }
                                 closeFragment();
                             }
