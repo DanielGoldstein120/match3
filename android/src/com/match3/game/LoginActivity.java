@@ -26,10 +26,15 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     Button btnLogin;
     static String userUID;
+    RegisterFragment rf;
 
     FirebaseDatabase database;
     private FirebaseAuth mAuth;
 
+
+    public void onBackPressed() {
+        if (rf != null) rf.closeFragment();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +45,11 @@ public class LoginActivity extends AppCompatActivity {
 
         // from Text view, make a clickListener for registering
         TextView tv = findViewById( R.id.register );
+        rf = new RegisterFragment();
         tv.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.login, new RegisterFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.login, rf).commit();
             }
         });
 

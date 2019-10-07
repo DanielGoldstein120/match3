@@ -107,7 +107,7 @@ public class RegisterFragment<mAuth> extends Fragment {
         return view;
     }
 
-    private void closeFragment() {
+    public void closeFragment() {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.remove(this);
