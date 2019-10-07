@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -97,11 +99,20 @@ public class RegisterFragment<mAuth> extends Fragment {
                                     Log.i( "createUser: failure", task.getException().toString());
                                     Toast.makeText(getActivity(), "Created user failed", Toast.LENGTH_SHORT).show();
                                 }
+                                closeFragment();
                             }
                         });
             }
         });
         return view;
+    }
+
+    private void closeFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(this);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
