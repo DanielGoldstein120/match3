@@ -18,7 +18,7 @@
         android:background="#A1FF0070"
         android:ems="10"
         android:drawableLeft="@drawable/ic_action_username"
-        android:hint="User Name"
+        android:hint="Email"
         android:inputType="textPersonName"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white" />
